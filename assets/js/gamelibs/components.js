@@ -1,3 +1,48 @@
+
+/**@
+* #Fourway
+* @category Input
+* Move an entity in four directions by using the
+* arrow keys or `W`, `A`, `S`, `D`.
+*/
+Crafty.c("Blockway", {
+
+	init: function () {
+		this.requires("Fourway");
+	},
+
+	/**@
+	* #.fourway
+	* @comp Fourway
+	* @sign public this .fourway(Number speed)
+	* @param speed - Amount of pixels to move the entity whilst a key is down
+	* Constructor to initialize the speed. Component will listen for key events and move the entity appropriately.
+	* This includes `Up Arrow`, `Right Arrow`, `Down Arrow`, `Left Arrow` as well as `W`, `A`, `S`, `D`.
+	*
+	* When direction changes a NewDirection event is triggered with an object detailing the new direction: {x: x_movement, y: y_movement}
+	* When entity has moved on either x- or y-axis a Moved event is triggered with an object specifying the old position {x: old_x, y: old_y}
+	*
+	* The key presses will move the entity in that direction by the speed passed in the argument.
+	* @see Multiway
+	*/
+	blockway: function (speed) {
+		this.fourway(speed)
+		.bind("EnterFrame", function (frame) {
+		//  this.disableControl();
+		  //var enable = 
+	//	  setTimeout("this.enableControl()", 500);
+			//if (this.disableControls) return;
+			//if (this._up) {
+			//	this.y -= jump;
+			//	this._falling = true;
+	//		this.enableControl();
+		});
+			
+
+		return this;
+	}
+});
+
 function timer() {
 
     var timeleft = 150;
@@ -73,7 +118,7 @@ Crafty.c("Player", {
         }
         */
         this
-        .addComponent("2D", "Canvas", "Dash", "Keyboard", "Fourway", "Collision", "SpriteAnimation", "Solid")
+        .addComponent("2D", "Canvas", "Dash", "Blockway", "Collision", "SpriteAnimation")
         /*Add needed Components*/
         .animate("StandingAnimation", [
         [0, 1], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1],
@@ -84,7 +129,7 @@ Crafty.c("Player", {
         .animate('LeftWalking', 0, 4, 7)
         .stop()
         .animate("StandingAnimation", 10, -1)
-        .fourway(8)
+        .blockway(32)
         //change direction when a direction change event is received
         .bind("NewDirection",
         function(direction) {
@@ -121,16 +166,8 @@ Crafty.c("Player", {
                     y: from.y
                 });
             } 
-            //
-            else if(this.hit('Dirt')) {
-              var items = this.hit('Dirt');
 
-              // destroy items
-              _.each(items, function(item) {
-                item.obj.destroy();
-              });
-
-            }
+            /*
             else if(this.hit('Diamond')) {
               var items = this.hit('Diamond');
 
@@ -142,11 +179,15 @@ Crafty.c("Player", {
               });
 
             }
+            */
             else {
                 Crafty.audio.play("movedirt");
             }
         })
-        /*
+        .onHit('Dirt', function(ent) {
+          // destroy item
+          ent[0].obj.destroy();
+        })
         .onHit('Diamond',
         function(ent) {
             Crafty.audio.play("pickupdiamond");
@@ -184,7 +225,6 @@ Crafty.c("Player", {
             }
 
         })
-        */
         .onHit('FinishLine',
         function(ent) {
             Crafty.audio.play("bonuspoints");
@@ -234,23 +274,7 @@ Crafty.c("Player", {
 
 Crafty.c("Dirt", {
     init: function() {
-        this.addComponent("2D", "Canvas", "Platform", "DirtSprite")
-        .bind("EnterFrame",
-        function() {
-            if (this.x > Crafty.viewport.width + this.w ||
-            this.x < -this.w ||
-            this.y < -this.h ||
-            this.y > Crafty.viewport.height + this.h) {
-                this.destroy();
-            }
-        });
-        /*
-        "Collision", 
-        .onHit("Player",
-        function(ent) {
-            this.destroy();
-        });
-        */
+        this.addComponent("2D", "Canvas", "Platform", "DirtSprite");
     }
 });
 
@@ -259,15 +283,6 @@ Crafty.c("Stone", {
         this.addComponent("2D", "Canvas", "Collision", "StoneSprite", "Gravity", "Solid", "Platform")
         .gravity("Platform")
         .gravityConst(1)
-        .bind("EnterFrame",
-        function() {
-            if (this.x > Crafty.viewport.width + this.w ||
-            this.x < -this.w ||
-            this.y < -this.h ||
-            this.y > Crafty.viewport.height + this.h) {
-                this.destroy();
-            }
-        })
         .bind('Move',
         function(from) {
             Crafty.audio.play("boulder");
@@ -500,13 +515,11 @@ Crafty.c("Finish", {
                     z: 2
                 });
 
-
                 this.start = 0;
             }
         })
     }
 });
-
 
 Crafty.c("FinishLine", {
     init: function() {
