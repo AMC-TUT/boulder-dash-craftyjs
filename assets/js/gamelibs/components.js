@@ -234,7 +234,7 @@ Crafty.c("Player", {
 
 Crafty.c("Dirt", {
     init: function() {
-        this.addComponent("2D", "Canvas", "DirtSprite", "Platform")
+        this.addComponent("2D", "Canvas", "Platform", "DirtSprite")
         .bind("EnterFrame",
         function() {
             if (this.x > Crafty.viewport.width + this.w ||
@@ -282,7 +282,7 @@ Crafty.c("Stone", {
 
 Crafty.c("Diamond", {
     init: function() {
-        this.addComponent("2D", "Canvas", "Collision", "Gravity", "SpriteAnimation", "diamond1", "Solid", "Platform")
+        this.addComponent("2D", "Canvas", "Collision", "Gravity", "SpriteAnimation", "diamond1", "Platform")
         .stop()
         .animate("DiamondAnimation", 0, 10, 7)
         .animate("DiamondAnimation", 8, -1)
@@ -302,7 +302,7 @@ Crafty.c("Diamond", {
 Crafty.c("Door", {
     init: function() {
         this.start = 1,
-        this.addComponent("2D", "Canvas", "SpriteAnimation", "door")
+        this.addComponent("2D", "Canvas", "SpriteAnimation", "DoorSprite")
         .stop()
         .animate("DoorAnimation", 1, 6, 0)
         .animate("DoorAnimation", 16, 6)
@@ -310,7 +310,8 @@ Crafty.c("Door", {
         function(frame) {
             if (!this.isPlaying('DoorAnimation') && this.start) {
                 this.start = 0;
-                //Create the player
+                
+                // Create the player
                 Crafty.e("Player").attr({
                     x: 3 * 32,
                     y: 3 * 32,
@@ -334,13 +335,13 @@ Crafty.c("Explosion", {
 
 Crafty.c("Brick", {
     init: function() {
-        this.addComponent("2D", "Canvas", "Collision", "BrickSprite", "Solid", "Platform");
+        this.addComponent("2D", "Canvas", "BrickSprite", "Platform");
     }
 });
 
 Crafty.c("Steel", {
     init: function() {
-        this.addComponent("2D", "Canvas", "Collision", "steel", "Solid", "Platform");
+        this.addComponent("2D", "Canvas", "SteelSprite", "Platform");
     }
 });
 
@@ -401,7 +402,7 @@ Crafty.c('Timer3', {
 Crafty.c("Finish", {
     init: function() {
         this.start = 1,
-        this.addComponent("2D", "Canvas", "Collision", "steel", "Solid", "Platform")
+        this.addComponent("2D", "Canvas", "SteelSprite", "Platform")
         .bind('EnterFrame',
         function(frame) {
             if (this.start) {
@@ -509,7 +510,7 @@ Crafty.c("Finish", {
 
 Crafty.c("FinishLine", {
     init: function() {
-        this.addComponent("2D", "Canvas", "Collision", "SpriteAnimation", "door", "Solid", "Platform")
+        this.addComponent("2D", "Canvas", "SpriteAnimation", "DoorSprite", "Platform")
         .stop()
         .animate("FinishAnimation", 1, 6, 2)
         .animate("FinishAnimation", 32, -1)

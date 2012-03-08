@@ -54,8 +54,8 @@ Crafty.sprite(32, bd.game_path + "/assets/img/sprite.png", {
     walkingright7: [6, 5],
     walkingright8: [7, 5],
     // misc blocks
-    steel: [1, 6],
-    door: [2, 6],
+    SteelSprite: [1, 6],
+    DoorSprite: [2, 6],
     BrickSprite: [3, 6],
     // magic Brick blocks
     magicbrick1: [6, 4],
