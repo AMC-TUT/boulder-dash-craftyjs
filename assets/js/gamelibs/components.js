@@ -114,15 +114,39 @@ Crafty.c("Player", {
         })
         .bind('Moved',
         function(from) {
-            if (this.hit('Solid') && !this.hit('Diamond')) {
+            // Stone, Steel & Brick
+            if (this.hit('Stone') || this.hit('Steel') || this.hit('Brick') ) {
                 this.attr({
                     x: from.x,
                     y: from.y
                 });
-            } else {
+            } 
+            //
+            else if(this.hit('Dirt')) {
+              var items = this.hit('Dirt');
+
+              // destroy items
+              _.each(items, function(item) {
+                item.obj.destroy();
+              });
+
+            }
+            else if(this.hit('Diamond')) {
+              var items = this.hit('Diamond');
+
+              // destroy items
+              _.each(items, function(item) {
+                item.obj.destroy();
+                //
+                Crafty.audio.play("pickupdiamond");
+              });
+
+            }
+            else {
                 Crafty.audio.play("movedirt");
             }
         })
+        /*
         .onHit('Diamond',
         function(ent) {
             Crafty.audio.play("pickupdiamond");
@@ -160,6 +184,7 @@ Crafty.c("Player", {
             }
 
         })
+        */
         .onHit('FinishLine',
         function(ent) {
             Crafty.audio.play("bonuspoints");
@@ -209,7 +234,7 @@ Crafty.c("Player", {
 
 Crafty.c("Dirt", {
     init: function() {
-        this.addComponent("2D", "Canvas", "Collision", "dirt", "Platform")
+        this.addComponent("2D", "Canvas", "DirtSprite", "Platform")
         .bind("EnterFrame",
         function() {
             if (this.x > Crafty.viewport.width + this.w ||
@@ -218,17 +243,20 @@ Crafty.c("Dirt", {
             this.y > Crafty.viewport.height + this.h) {
                 this.destroy();
             }
-        })
+        });
+        /*
+        "Collision", 
         .onHit("Player",
         function(ent) {
             this.destroy();
         });
+        */
     }
 });
 
 Crafty.c("Stone", {
     init: function() {
-        this.addComponent("2D", "Canvas", "Collision", "stone", "Gravity", "Solid", "Platform")
+        this.addComponent("2D", "Canvas", "Collision", "StoneSprite", "Gravity", "Solid", "Platform")
         .gravity("Platform")
         .gravityConst(1)
         .bind("EnterFrame",
@@ -306,7 +334,7 @@ Crafty.c("Explosion", {
 
 Crafty.c("Brick", {
     init: function() {
-        this.addComponent("2D", "Canvas", "Collision", "brick", "Solid", "Platform");
+        this.addComponent("2D", "Canvas", "Collision", "BrickSprite", "Solid", "Platform");
     }
 });
 

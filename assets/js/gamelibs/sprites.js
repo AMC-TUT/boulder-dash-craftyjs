@@ -56,15 +56,15 @@ Crafty.sprite(32, bd.game_path + "/assets/img/sprite.png", {
     // misc blocks
     steel: [1, 6],
     door: [2, 6],
-    brick: [3, 6],
-    // magic brick blocks
+    BrickSprite: [3, 6],
+    // magic Brick blocks
     magicbrick1: [6, 4],
     magicbrick2: [6, 5],
     magicbrick3: [6, 6],
     magicbrick4: [6, 7],
-    // stone
-    stone: [0, 7],
-    dirt: [1, 7],
+    // Stone
+    StoneSprite: [0, 7],
+    DirtSprite: [1, 7],
     explosion1: [2, 7],
     explosion2: [3, 7],
     explosion3: [4, 7],
