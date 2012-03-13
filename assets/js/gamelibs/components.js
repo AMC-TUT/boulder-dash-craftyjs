@@ -242,9 +242,9 @@ Crafty.c("Player", {
         
         // explosion effect to surrounding cells
         for (var i=this.x-32; i <= this.x+32; i+=32) {
-          log('i' + i)
-          for (var j=this.x-32; j <= this.x+32; j+=32) {
-            log('j' + j)
+          //log('i' + i)
+          for (var j=this.y-32; j <= this.y+32; j+=32) {
+            //log('j' + j)
             Crafty.e("Explosion").attr({
                 x: i,
                 y: j,
@@ -279,19 +279,45 @@ Crafty.c("Dirt", {
 });
 
 Crafty.c("Stone", {
+    fromFrame: 0,
+    lastFrame: 0,
     init: function() {
         this.addComponent("2D", "Canvas", "Collision", "StoneSprite", "Gravity", "Solid", "Platform")
         .gravity("Platform")
         .gravityConst(1)
         .bind('Move',
         function(from) {
+            if(this.fromFrame == 0) {
+                this.fromFrame = from._y;
+            }
+            this.lastFrame = from._y;
             Crafty.audio.play("boulder");
         })
-        .onHit("Player",
+/*        .onHit("Player",
         function(ent) {
             ent[0].obj.die();
-        });
+        }) */
+        .bind("EnterFrame",
+        function(frame) {
+            
+            // liikutaan
+            if(this.fromFrame != 0) {
+                if (this.hit('Player') ) {
+                    // DIE DIE DIE
+                    log('KUALI');
+                } 
+            }
 
+            // olaan pysatty joten nollataan 
+            if(this.lastFrame == this._y) {
+                this.fromFrame = 0;
+                if (this.hit('Player') ) {
+                    this.attr({
+                        y: this.lastFrame,
+                    });
+                } 
+            }
+        });
     }
 });
 
