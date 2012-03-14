@@ -290,7 +290,7 @@ Crafty.c("Stone", {
             if(this.fromFrame == 0) {
                 this.fromFrame = from._y;
             }
-            this.lastFrame = from._y;
+            this.lastFrame = this.fromFrame;
             Crafty.audio.play("boulder");
         })
 /*        .onHit("Player",
@@ -309,13 +309,13 @@ Crafty.c("Stone", {
             }
 
             // olaan pysatty joten nollataan 
-            if(this.lastFrame == this._y) {
-                this.fromFrame = 0;
+            if(this.lastFrame < this._y) {
                 if (this.hit('Player') ) {
                     this.attr({
-                        y: this.lastFrame,
+                        y: this.fromFrame,
                     });
                 } 
+                this.fromFrame = 0;
             }
         });
     }
