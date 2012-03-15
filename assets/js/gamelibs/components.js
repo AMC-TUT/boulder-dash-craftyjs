@@ -279,27 +279,72 @@ Crafty.c("Dirt", {
 });
 
 Crafty.c("Stone", {
-    fromFrame: 0,
-    lastFrame: 0,
+    previous_y: 0,
+    next_y: 0,
+    from_y: 0,
     init: function() {
         this.addComponent("2D", "Canvas", "Collision", "StoneSprite", "Gravity", "Solid", "Platform")
         .gravity("Platform")
         .gravityConst(1)
-        .bind('Move',
+        .bind('Change',
         function(from) {
+            this.from_y = from._y;
+            this.next_y = this._y;
+            
+log('Change '+this.from_y+' '+this.next_y);
+
+            //this.fromFrame = from._y;
+/*
+
             if(this.fromFrame == 0) {
                 this.fromFrame = from._y;
             }
             this.lastFrame = this.fromFrame;
             Crafty.audio.play("boulder");
         })
+        */
 /*        .onHit("Player",
         function(ent) {
             ent[0].obj.die();
-        }) */
+            */
+        }) 
         .bind("EnterFrame",
-        function(frame) {
-            
+        function() {
+            // Kivi pysyy paikallaan
+            if (this.next_y == this.previous_y) {
+            // Kivi liikkuu
+            } else {
+                if (this.hit('Player') ) {
+                    this.attr({
+                        y: this.from_y,
+                    });
+                } 
+                log('Move '+this.from_y+' '+this._y);
+
+            }
+            this.previous_y = this.next_y;
+/*
+            if(this._y == this.lastFrame){
+                this._falling = false;
+                log('falling to false')
+            }
+
+            if(this._falling) {
+                log('KUALI');
+            } else {
+                //log('falling is true')
+                if (this.hit('Player') ) {
+                    this.attr({
+                        y: from._y,    
+                    });
+                    log('stone hit the player')
+                } 
+            }
+            //log('lopussa')
+            this.lastFrame = this._y;
+*/            
+
+            /*
             // liikutaan
             if(this.fromFrame != 0) {
                 if (this.hit('Player') ) {
@@ -317,6 +362,7 @@ Crafty.c("Stone", {
                 } 
                 this.fromFrame = 0;
             }
+            */
         });
     }
 });
