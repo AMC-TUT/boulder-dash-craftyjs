@@ -196,7 +196,7 @@ Crafty.c("Player", {
             Crafty.audio.play("bonuspoints");
         })
         .bind("EnterFrame", function(frame) {
-          log(this.map());
+          // log( Crafty.map.search(this) );
           //
         }).
         bind("Killed", function() {

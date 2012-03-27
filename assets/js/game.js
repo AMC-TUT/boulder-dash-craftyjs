@@ -9,6 +9,8 @@ window.onload = function() {
     // Initialize Crafty
     Crafty.init(WIDTH, HEIGHT);
     
+    Crafty.HashMap(32);
+    
     Crafty.background("#FFF");
 
     Crafty.scene("Loading");
