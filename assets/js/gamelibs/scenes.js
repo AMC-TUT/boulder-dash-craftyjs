@@ -100,13 +100,14 @@ function() {
                 function(cell) {
                     switch (cell) {
                     case 1:
-                        var tmp = Crafty.e('Dirt').attr({
+                        //var tmp = 
+                        Crafty.e('Dirt').attr({
                             x: j * 32,
                             y: i * 32,
                             z: 2
                         });
-                        var hashmapobj = Crafty.HashMap(tmp);
-                        Crafty.map.insert(hashmapobj);
+                        //var hashmapobj = Crafty.HashMap(tmp);
+                        //Crafty.map.insert(hashmapobj);
                         
                         break;
                     case 2:
