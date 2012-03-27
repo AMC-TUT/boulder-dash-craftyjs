@@ -130,8 +130,7 @@ Crafty.c("Player", {
         .animate("StandingAnimation", 10, -1)
         .blockway(32)
         //change direction when a direction change event is received
-        .bind("NewDirection",
-        function(direction) {
+        .bind("NewDirection", function(direction) {
             if (direction.x < 0) {
                 if (!this.isPlaying("LeftWalking"))
                 this.stop().animate("LeftWalking", 10, -1)
@@ -152,12 +151,10 @@ Crafty.c("Player", {
                 this.stop().animate("StandingAnimation", 10, -1);
             }
         })
-        .bind('KeyUp',
-        function(e) {
+        .bind('KeyUp', function(e) {
             this.stop().animate("StandingAnimation", 10, -1);
         })
-        .bind('Moved',
-        function(from) {
+        .bind('Moved', function(from) {
             // Stone, Steel & Brick
             if (this.hit('Stone') || this.hit('Steel') || this.hit('Brick')) {
                 this.attr({
@@ -168,13 +165,11 @@ Crafty.c("Player", {
                 Crafty.audio.play("movedirt");
             }
         })
-        .onHit('Dirt',
-        function(ent) {
+        .onHit('Dirt', function(ent) {
             // destroy item
             ent[0].obj.destroy();
         })
-        .onHit('Diamond',
-        function(ent) {
+        .onHit('Diamond', function(ent) {
             Crafty.audio.play("pickupdiamond");
             ent[0].obj.destroy();
 
@@ -201,9 +196,10 @@ Crafty.c("Player", {
             Crafty.audio.play("bonuspoints");
         })
         .bind("EnterFrame", function(frame) {
+          log(this.map());
           //
         }).
-        bind( 'Killed', function() {
+        bind("Killed", function() {
           
           // explosion effect voice
           Crafty.audio.play("explosion");
@@ -257,81 +253,9 @@ Crafty.c("Stone", {
         .bind('Change', function(from) {
           //
         })
-        .bind("EnterFrame",
-        function(frame) {
+        .bind("EnterFrame", function(frame) {
           //
         })
-
-/*
-//this.from_y = from._y;
-//this.next_y = this._y;
-//log('Change '+this.from_y+' '+this.next_y);
-//this.fromFrame = from._y;
-
-if(this.fromFrame == 0) {
-this.fromFrame = from._y;
-}
-this.lastFrame = this.fromFrame;
-Crafty.audio.play("boulder");
-})
-.onHit("Player",
-function(ent) {
-ent[0].obj.trigger('Killed'); die();
-
-//this.y = this.from_y;
-
-// Kivi pysyy paikallaan
-if (this.next_y == this.previous_y) {
-// Kivi liikkuu
-} else {
-if (this.hit('Player') ) {
-this.attr({
-y: this.from_y,
-});
-} 
-log('Move '+this.from_y+' '+this._y);
-
-}
-this.previous_y = this.next_y;
-
-if(this._y == this.lastFrame){
-this._falling = false;
-log('falling to false')
-}
-
-if(this._falling) {
-log('KUALI');
-} else {
-//log('falling is true')
-if (this.hit('Player') ) {
-this.attr({
-y: from._y,    
-});
-log('stone hit the player')
-} 
-}
-
-this.lastFrame = this._y;
-
-// liikutaan
-if(this.fromFrame != 0) {
-if (this.hit('Player') ) {
-// DIE DIE DIE
-log('KUALI');
-} 
-}
-
-// olaan pysatty joten nollataan 
-if(this.lastFrame < this._y) {
-if (this.hit('Player') ) {
-this.attr({
-y: this.fromFrame,
-});
-} 
-this.fromFrame = 0;
-}
-});
-*/
     }
 });
 
@@ -361,13 +285,12 @@ Crafty.c("Door", {
         .stop()
         .animate("DoorAnimation", 1, 6, 0)
         .animate("DoorAnimation", 16, 6)
-        .bind('EnterFrame',
-        function(frame) {
+        .bind('EnterFrame', function(frame) {
             if (!this.isPlaying('DoorAnimation') && this.start) {
                 //
                 this.start = 0;
                 // Create the player
-                Crafty.e("Player").attr({
+                var obj = Crafty.e("Player").attr({
                     x: 3 * 32,
                     y: 3 * 32,
                     z: 3
