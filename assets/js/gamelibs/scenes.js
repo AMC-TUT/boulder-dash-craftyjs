@@ -1,4 +1,5 @@
 
+
 //Loading Scene
 Crafty.scene("Loading",
 function() {
@@ -20,7 +21,7 @@ function() {
   */
 
     Crafty.background("#000");
-    
+
     Crafty.e("2D", "DOM", "Text").css({
         "color": "#EEE",
         "font-size": "2em",
@@ -28,8 +29,8 @@ function() {
         "white-space": "nowrap",
         "text-align": "center"
     }).text("Ladataan...");
-    
-    Crafty.load([bd.game_path + "/assets/img/sprite.png", bd.game_path + "/assets/img/chars.png"],
+
+    Crafty.load([bd.game_path + "/assets/img/sprite.png"],
     function() {
         //when loaded
         Crafty.audio.play("uncover");
@@ -39,7 +40,7 @@ function() {
     function(e) {
         //progress
         //log('loaded ' + e.loaded + ', percent ' + Math.round(e.percent) + ', total ' + e.total);
-    },
+        },
     function(e) {
         //uh oh, error loading
         alert('Error while loading assets (loaded ' + e.loaded + ', percent ' + Math.round(e.percent) + ', total ' + e.total + ')');
@@ -51,6 +52,8 @@ function() {
 //Game Scene
 Crafty.scene("Game",
 function() {
+  
+    //Crafty.HashMap(32);
 
     Crafty.background("#000");
 
@@ -100,54 +103,68 @@ function() {
                 function(cell) {
                     switch (cell) {
                     case 1:
-                        //var tmp = 
                         Crafty.e('Dirt').attr({
-                            x: j * 32,
+                            x:
+                            j * 32,
                             y: i * 32,
                             z: 2
                         });
-                        //var hashmapobj = Crafty.HashMap(tmp);
-                        //Crafty.map.insert(hashmapobj);
-                        
                         break;
                     case 2:
                         Crafty.e('Stone').attr({
-                          x: j * 32, y: i * 32, z: 2
+                            x:
+                            j * 32,
+                            y: i * 32,
+                            z: 2
                         });
                         break;
                     case 3:
                         Crafty.e('Diamond').attr({
-                          x: j * 32, y: i * 32, z: 2
+                            x:
+                            j * 32,
+                            y: i * 32,
+                            z: 2
                         })
                         break;
                     case 4:
                         Crafty.e('Brick').attr({
-                          x: j * 32, y: i * 32, z: 2
+                            x:
+                            j * 32,
+                            y: i * 32,
+                            z: 2
                         })
                         break;
-                    case 5: // empty space
+                    case 5:
+                        // empty space
                         break;
                     case 8:
                         Crafty.e('Door').attr({
-                          x: j * 32, y: i * 32, z: 2
+                            x:
+                            j * 32,
+                            y: i * 32,
+                            z: 2
                         })
                         break;
                     case 9:
                         Crafty.e('Finish').attr({
-                        x: j * 32, y: i * 32, z: 2
+                            x:
+                            j * 32,
+                            y: i * 32,
+                            z: 2
                         })
                         break;
                     default:
                         Crafty.e('Steel').attr({
-                          x: j * 32, y: i * 32, z: 2
+                            x:
+                            j * 32,
+                            y: i * 32,
+                            z: 2
                         })
                     }
-
                     // column
                     j++;
                 });
             }
-
             // row
             i++;
         });

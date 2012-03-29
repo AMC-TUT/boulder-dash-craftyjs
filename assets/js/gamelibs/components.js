@@ -126,7 +126,6 @@ Crafty.c("Player", {
         ])
         .animate('RightWalking', 0, 5, 7)
         .animate('LeftWalking', 0, 4, 7)
-        .stop()
         .animate("StandingAnimation", 10, -1)
         .blockway(32)
         //change direction when a direction change event is received
@@ -196,7 +195,6 @@ Crafty.c("Player", {
             Crafty.audio.play("bonuspoints");
         })
         .bind("EnterFrame", function(frame) {
-          // log( Crafty.map.search(this) );
           //
         }).
         bind("Killed", function() {
@@ -216,6 +214,15 @@ Crafty.c("Player", {
                   });
               };
           };
+          
+          /*
+          var el = Crafty.map.search({ _x: obj._x, _y: obj._y + 32, _w: 32, _h: 32 })[0];
+          if(el.length) {
+            log("elementti: " + JSON.stringify(el.__c));
+          } else {
+            log("[]");
+          }
+          */
 
           // background music for result view
           Crafty.audio.play("music", -1);
