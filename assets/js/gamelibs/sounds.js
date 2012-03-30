@@ -14,7 +14,7 @@ Crafty.audio.add({
     ]
 });
 Crafty.audio.add({
-    boulder: [
+    BoulderSound: [
     bd.game_path + "/assets/audio/ogg/Boulder.ogg",
     bd.game_path + "/assets/audio/mp3/Boulder.mp3",
     bd.game_path + "/assets/audio/wav/Boulder.wav"
@@ -28,45 +28,10 @@ Crafty.audio.add({
     ]
 });
 Crafty.audio.add({
-    diamond1: [
+    DiamondSound: [
     bd.game_path + "/assets/audio/ogg/Diamond1.ogg",    
     bd.game_path + "/assets/audio/mp3/Diamond1.mp3",
     bd.game_path + "/assets/audio/wav/Diamond1.wav"
-    ]
-});
-Crafty.audio.add({
-    diamond2: [
-    bd.game_path + "/assets/audio/ogg/Diamond2.ogg",
-    bd.game_path + "/assets/audio/mp3/Diamond2.mp3",
-    bd.game_path + "/assets/audio/wav/Diamond2.wav"
-    ]
-});
-Crafty.audio.add({
-    diamond3: [
-    bd.game_path + "/assets/audio/ogg/Diamond3.ogg",
-    bd.game_path + "/assets/audio/mp3/Diamond3.mp3",
-    bd.game_path + "/assets/audio/wav/Diamond3.wav"
-    ]
-});
-Crafty.audio.add({
-    diamond4: [
-    bd.game_path + "/assets/audio/ogg/Diamond4.ogg",
-    bd.game_path + "/assets/audio/mp3/Diamond4.mp3",
-    bd.game_path + "/assets/audio/wav/Diamond4.wav"    
-    ]
-});
-Crafty.audio.add({
-    diamond5: [
-    bd.game_path + "/assets/audio/ogg/Diamond5.ogg",
-    bd.game_path + "/assets/audio/mp3/Diamond5.mp3",
-    bd.game_path + "/assets/audio/wav/Diamond5.wav"   
-    ]
-});
-Crafty.audio.add({
-    diamond6: [
-    bd.game_path + "/assets/audio/ogg/Diamond6.ogg",
-    bd.game_path + "/assets/audio/mp3/Diamond6.mp3",
-    bd.game_path + "/assets/audio/wav/Diamond6.wav"
     ]
 });
 Crafty.audio.add({

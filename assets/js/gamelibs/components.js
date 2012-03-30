@@ -10,7 +10,7 @@ Crafty.c("Blockway", {
         this.requires("Fourway");
     },
 
-    /**@
+/**@
 * #.fourway
 * @comp Fourway
 * @sign public this .fourway(Number speed)
@@ -24,19 +24,19 @@ Crafty.c("Blockway", {
 * The key presses will move the entity in that direction by the speed passed in the argument.
 * @see Multiway
 */
-    blockway: function(speed) {
-        this.fourway(speed)
-        .bind("EnterFrame",
-        function(frame) {
-            //  this.disableControl();
-            //var enable =
-            //	  setTimeout("this.enableControl()", 500);
-            //if (this.disableControls) return;
-            //if (this._up) {
+blockway: function(speed) {
+    this.fourway(speed)
+    .bind("EnterFrame",
+    function(frame) {
+        //  this.disableControl();
+        //var enable =
+        //	  setTimeout("this.enableControl()", 500);
+        //if (this.disableControls) return;
+        //if (this._up) {
             //	this.y -= jump;
             //	this._falling = true;
             //		this.enableControl();
-            });
+        });
 
 
         return this;
@@ -45,52 +45,52 @@ Crafty.c("Blockway", {
 
 function timer() {
 /*
-    var timeleft = 150;
+var timeleft = 150;
 
-    setInterval(function() {
+setInterval(function() {
 
-        timeleft -= 1;
+timeleft -= 1;
 
-        if (timeleft == 0) {
-            Crafty.e("Player").die();
-        }
+if (timeleft == 0) {
+Crafty.e("Player").die();
+}
 
-        var s = timeleft.toString();
-        var a = s.split("");
+var s = timeleft.toString();
+var a = s.split("");
 
-        if (timeleft < 10) {
-            a.unshift("0", "0");
-        } else if (timeleft < 100) {
-            a.unshift("0");
-        }
+if (timeleft < 10) {
+a.unshift("0", "0");
+} else if (timeleft < 100) {
+a.unshift("0");
+}
 
-        Crafty.e("Timer1").destroy();
-        Crafty.e("Timer1").addComponent("wchar" + a[0]).attr({
-            x: 25 * 32,
-            y: 9,
-            z: 2
-        });
+Crafty.e("Timer1").destroy();
+Crafty.e("Timer1").addComponent("wchar" + a[0]).attr({
+x: 25 * 32,
+y: 9,
+z: 2
+});
 
-        Crafty.e("Timer2").destroy();
-        Crafty.e("Timer2").addComponent("wchar" + a[1]).attr({
-            x: 26 * 32,
-            y: 9,
-            z: 2
-        });
+Crafty.e("Timer2").destroy();
+Crafty.e("Timer2").addComponent("wchar" + a[1]).attr({
+x: 26 * 32,
+y: 9,
+z: 2
+});
 
-        Crafty.e("Timer3").destroy();
-        Crafty.e("Timer3").addComponent("wchar" + a[2]).attr({
-            x: 27 * 32,
-            y: 9,
-            z: 2
-        });
+Crafty.e("Timer3").destroy();
+Crafty.e("Timer3").addComponent("wchar" + a[2]).attr({
+x: 27 * 32,
+y: 9,
+z: 2
+});
 
-        if (timeleft == 11) {
-            Crafty.audio.play("runningoutoftime");
-        }
+if (timeleft == 11) {
+Crafty.audio.play("runningoutoftime");
+}
 
-    },
-    1000);
+},
+1000);
 */
 }
 
@@ -107,15 +107,15 @@ Crafty.c("Player", {
         this.collected = 0,
         this.limit = 1,
         /*
-    this.infos = {
-    lives :$('.lives'),
-    score: $('.score'),
-    hp:this.bars.hp.find('.text'),
-    heat:this.bars.heat.find('.text'),
-    shield:this.bars.shield.find('.text'),
-    alert:$('.alert')
-    }
-    */
+        this.infos = {
+        lives :$('.lives'),
+        score: $('.score'),
+        hp:this.bars.hp.find('.text'),
+        heat:this.bars.heat.find('.text'),
+        shield:this.bars.shield.find('.text'),
+        alert:$('.alert')
+        }
+        */
         this
         .addComponent("2D", "Canvas", "Dash", "Blockway", "Collision", "SpriteAnimation", "Platform")
         /*Add needed Components*/
@@ -154,12 +154,27 @@ Crafty.c("Player", {
             this.stop().animate("StandingAnimation", 10, -1);
         })
         .bind('Moved', function(from) {
+            log('Moved');
             // Stone, Steel & Brick
             if (this.hit('Stone') || this.hit('Steel') || this.hit('Brick')) {
                 this.attr({
                     x: from.x,
                     y: from.y
                 });
+                
+                if(this.hit('Stone')) {
+                    
+                    // if moved horizontaly
+                    //if(from.x <> this._x){
+                        // try to push the stone
+                        // this.trigger('Push');
+                        
+                        var direction = (this._x > from.x) ? 'e' : 'w';
+                        
+                        log('direction:' + direction);
+                    //}
+                }
+                
             } else {
                 Crafty.audio.play("movedirt");
             }
@@ -169,19 +184,30 @@ Crafty.c("Player", {
             ent[0].obj.destroy();
         })
         .onHit('Diamond', function(ent) {
+            // play sound
             Crafty.audio.play("pickupdiamond");
+            
+            // destroy diamond
             ent[0].obj.destroy();
-
+            
+            // add score
             this.collected += 1;
-
+            
+            // if score reaches the level limit value
             if (this.collected == this.limit) {
+                // play sound
                 Crafty.audio.play("crack");
+                
+                // remove steel from finishline
                 Crafty.e("Finish").destroy();
+                
+                // add finishline
                 Crafty.e("FinishLine").attr({
                     x: 1216,
                     y: 544,
                     z: 3
                 });
+
             }
 
             if (this.collected > this.limit) {
@@ -195,93 +221,194 @@ Crafty.c("Player", {
             Crafty.audio.play("bonuspoints");
         })
         .bind("EnterFrame", function(frame) {
-          //
-        }).
-        bind("Killed", function() {
-          
-          // explosion effect voice
-          Crafty.audio.play("explosion");
-
-          // explosion effect to surrounding cells
-          for (var i = this.x - 32; i <= this.x + 32; i += 32) {
-              //log('i' + i)
-              for (var j = this.y - 32; j <= this.y + 32; j += 32) {
-                  //log('j' + j)
-                  Crafty.e("Explosion").attr({
-                      x: i,
-                      y: j,
-                      z: 3
-                  });
-              };
-          };
-          
-          /*
-          var el = Crafty.map.search({ _x: obj._x, _y: obj._y + 32, _w: 32, _h: 32 })[0];
-          if(el.length) {
-            log("elementti: " + JSON.stringify(el.__c));
-          } else {
-            log("[]");
-          }
-          */
-
-          // background music for result view
-          Crafty.audio.play("music", -1);
-
-          var $stage = $('#cr-stage');
-          var h = $stage.css('height');
-          var w = $stage.css('width');
-
-          $('body').append('<div style="position: absolute; left: 0; top: 0; width: ' + w + '; height : ' + h + '; font-family: Lucida Grande; text-align: center; box-sizing: border-box; padding: 200px; background: rgba(0,0,0,.7); font-size: 4em; color: yellow; z-index: 888;">Sait ' + this.score + ' pistettä</div>');
-
-          // destroy player
-          this.destroy();
-          
-        }) 
-
-        return this;
-    }
-
-});
-
-Crafty.c("Dirt", {
-    init: function() {
-        this.addComponent("2D", "Canvas", "Platform", "DirtSprite");
-    }
-});
-
-Crafty.c("Stone", {
-    previous_y: 0,
-    next_y: 0,
-    from_y: 0,
-    init: function() {
-        this.addComponent("2D", "Canvas", "Collision", "StoneSprite", "Gravity", "Solid", "Platform")
-        .gravity("Platform")
-        .gravityConst(1)
-        .bind('Change', function(from) {
-          //
+            //
         })
-        .bind("EnterFrame", function(frame) {
-          //
+        .bind("Push", function(ent) {
+            
         })
-    }
-});
+        .bind("Killed", function(ent) {
+
+            // explosion effect voice
+            Crafty.audio.play("explosion");
+
+            // array for get explosion elements fast 1 snd later
+            var xplosions = [];
+
+            // explosion effect to surrounding cells
+            for (var i = this._x - 32; i <= this._x + 32; i += 32) {
+                //log('i' + i)
+                for (var j = this._y - 32; j <= this._y + 32; j += 32) {
+                    var xpl = Crafty.e("Explosion").attr({ x: i, y: j, z: 3 });
+
+                    xplosions.push(xpl);
+                };
+            };
+
+            // after 1 second destroy all elements inside explosion area
+            setTimeout(function() {
+                _.each(xplosions, function(xpl) {
+                    var els = Crafty.map.search({ _x: xpl._x, _y: xpl._y, _w: 32, _h: 32 });
+                    _.each(els, function(el) {
+                        el.destroy();
+                    });
+                });
+                }, 1000);
+
+                // play background music a tiny bit after explosion
+                setTimeout(function() {
+                    // background music for result view
+                    // Crafty.audio.play("music", -1);
+
+                    alert('Sait ' + this.score + ' pistettä');
+
+                    }, 1100);
+
+                })
+
+                return this;
+            }
+        });
+
+        Crafty.c("Dirt", {
+            init: function() {
+                this.addComponent("2D", "Canvas", "Platform", "DirtSprite");
+            }
+        });
+
+        Crafty.c("Stone", {
+            previous_y: 0,
+            next_y: 0,
+            from_y: 0,
+            init: function() {
+                this.addComponent("2D", "Canvas", "Collision", "StoneSprite", "Gravity", "Solid", "Platform")
+                .gravity("Platform")
+                .gravityConst(1)
+                .bind('Move', function(from) {
+
+                    // check object below
+                    var obj = Crafty.map.search({ _x: this._x, _y: this._y + 32, _w: 32, _h: 32 })[0];
+
+                    // if player kill it with event triggering
+                    if(!!obj && obj.__c.Player) {
+                        // trigger event
+                        obj.trigger("Killed");
+                        // move player away to make sure that the 
+                        // event is not triggering multiple times
+                        obj.attr({ x: -32, y: -32 });
+                    } else {
+                        // play falling sound
+                        Crafty.audio.play("BoulderSound");
+                    }
+                })
+
+                return this;
+            }
+        });
+
+/*,
+putoanko: function() {
+log("Putoanko event");
+
+var elements = this.around();
+
+log(elements);
+/*
+var el, slippy = false;
+
+el = Crafty.map.search({ _x: this._x, _y: this._y + 32, _w: 32, _h: 32 })[0];
+if(typeof el !== "undefined") {
+if(el.__c.Stone || el.__c.Diamond) {
+log('Stone tai Diamond');
+slippy = true;
+}
+
+if(slippy) {
+el = Crafty.map.search({ _x: this._x, _y: this._y, _w: 32, _h: 32 })[0];
+}
+}
+* /
+
+},
+around: function() {
+
+var els = {}, counter = 0;
+
+for (var i = this._x - 32; i <= this._x + 32; i += 32) {
+for (var j = this._y - 32; j <= this._y + 32; j += 32) {
+
+++counter;
+
+var el = Crafty.map.search({ _x: i, _y: j, _w: 32, _h: 32 })[0];
+
+if(typeof el === "undefined") {
+el = {};
+}
+
+switch(counter)
+{
+case 1:
+els.nw = el; // NorthWest
+break;
+case 2:
+els.w = el;
+break;
+case 3:
+els.sw = el;
+break;
+case 4:
+els.n = el;
+break;
+case 6:
+els.s = el;
+break;
+case 7:
+els.ne = el;
+break;
+case 8:
+els.e = el;
+break;
+case 9:
+els.se = el;
+break;
+}
+
+};
+};
+
+return els;
+
+
+} // around
+*/
+//});
 
 Crafty.c("Diamond", {
     init: function() {
-        this.addComponent("2D", "Canvas", "Collision", "Gravity", "SpriteAnimation", "diamond1", "Platform")
+        this.addComponent("2D", "Canvas", "Gravity", "SpriteAnimation", "DiamondSprite", "Platform", "StoneDiamond")
         .stop()
         .animate("DiamondAnimation", 0, 10, 7)
         .animate("DiamondAnimation", 8, -1)
         .gravity("Platform")
         .gravityConst(1)
-        .onHit("Player",
-        function(ent) {
-            ent[0].obj.die();
+        .bind('Move', function(from) {
+
+            // check object below
+            var obj = Crafty.map.search({ _x: this._x, _y: this._y + 32, _w: 32, _h: 32 })[0];
+
+            // if player kill it with event triggering
+            if(!!obj && obj.__c.Player) {
+                // trigger event
+                obj.trigger("Killed");
+                // move player away to make sure that the 
+                // event is not triggering multiple times
+                obj.attr({ x: -32, y: -32 });
+            } else {
+                // play falling sound
+                Crafty.audio.play("DiamondSound");
+            }
         })
-        .bind('Move',
-        function(from) {
-            Crafty.audio.play("diamond1");
-        })
+
+        return this;
     }
 });
 
@@ -331,7 +458,9 @@ Crafty.c("Steel", {
 Crafty.c("Finish", {
     init: function() {
         this.start = 1,
-        this.addComponent("2D", "Canvas", "SteelSprite", "Platform")
+        this.addComponent("2D", "Canvas", "SteelSprite", "Platform");
+
+        return this;
     }
 });
 

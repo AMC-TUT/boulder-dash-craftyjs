@@ -4,21 +4,21 @@
 Crafty.scene("Loading",
 function() {
     /*
-  var assests = [
-  //Images
-  bd.game_path + "/assets/img/bg.png",
-  bd.game_path + "/assets/img/ships.png",
-  bd.game_path + "/assets/img/weapon1_small.png",
-  bd.game_path + "/assets/img/weapon2.png",
-  bd.game_path + "/assets/img/dmg.png",
-  bd.game_path + "/assets/img/asteroid64.png",
-  bd.game_path + "/assets/img/asteroid32.png",
-  bd.game_path + "/assets/img/explosion.png",
-  bd.game_path + "/media/sounds/explode.mp3",
-  bd.game_path + "/media/sounds/explode.ogg",
-  bd.game_path + "/media/sounds/explode.wav",
-  ];
-  */
+    var assests = [
+    //Images
+    bd.game_path + "/assets/img/bg.png",
+    bd.game_path + "/assets/img/ships.png",
+    bd.game_path + "/assets/img/weapon1_small.png",
+    bd.game_path + "/assets/img/weapon2.png",
+    bd.game_path + "/assets/img/dmg.png",
+    bd.game_path + "/assets/img/asteroid64.png",
+    bd.game_path + "/assets/img/asteroid32.png",
+    bd.game_path + "/assets/img/explosion.png",
+    bd.game_path + "/media/sounds/explode.mp3",
+    bd.game_path + "/media/sounds/explode.ogg",
+    bd.game_path + "/media/sounds/explode.wav",
+    ];
+    */
 
     Crafty.background("#000");
 
@@ -28,23 +28,23 @@ function() {
         "padding": "2em",
         "white-space": "nowrap",
         "text-align": "center"
-    }).text("Ladataan...");
+        }).text("Ladataan...");
 
-    Crafty.load([bd.game_path + "/assets/img/sprite.png"],
-    function() {
-        //when loaded
-        Crafty.audio.play("uncover");
-        // go to Game scene
-        Crafty.scene("Game");
-    },
-    function(e) {
-        //progress
-        //log('loaded ' + e.loaded + ', percent ' + Math.round(e.percent) + ', total ' + e.total);
+        Crafty.load([bd.game_path + "/assets/img/sprite.png"],
+        function() {
+            //when loaded
+            Crafty.audio.play("uncover");
+            // go to Game scene
+            Crafty.scene("Game");
         },
-    function(e) {
-        //uh oh, error loading
-        alert('Error while loading assets (loaded ' + e.loaded + ', percent ' + Math.round(e.percent) + ', total ' + e.total + ')');
-    }
+        function(e) {
+            //progress
+            //log('loaded ' + e.loaded + ', percent ' + Math.round(e.percent) + ', total ' + e.total);
+        },
+        function(e) {
+            //uh oh, error loading
+            alert('Error while loading assets (loaded ' + e.loaded + ', percent ' + Math.round(e.percent) + ', total ' + e.total + ')');
+        }
     );
 
 });
@@ -52,7 +52,7 @@ function() {
 //Game Scene
 Crafty.scene("Game",
 function() {
-  
+
     //Crafty.HashMap(32);
 
     Crafty.background("#000");
@@ -92,82 +92,75 @@ function() {
         //  row
         // loop each row
         _.each(world,
-        function(row) {
-            // row is array
-            if (_.isArray(row)) {
-                //
-                var j = 0;
-                // column
-                // loop each cell
-                _.each(row,
-                function(cell) {
-                    switch (cell) {
-                    case 1:
-                        Crafty.e('Dirt').attr({
-                            x:
-                            j * 32,
-                            y: i * 32,
-                            z: 2
-                        });
-                        break;
-                    case 2:
-                        Crafty.e('Stone').attr({
-                            x:
-                            j * 32,
-                            y: i * 32,
-                            z: 2
-                        });
-                        break;
-                    case 3:
-                        Crafty.e('Diamond').attr({
-                            x:
-                            j * 32,
-                            y: i * 32,
-                            z: 2
-                        })
-                        break;
-                    case 4:
-                        Crafty.e('Brick').attr({
-                            x:
-                            j * 32,
-                            y: i * 32,
-                            z: 2
-                        })
-                        break;
-                    case 5:
-                        // empty space
-                        break;
-                    case 8:
-                        Crafty.e('Door').attr({
-                            x:
-                            j * 32,
-                            y: i * 32,
-                            z: 2
-                        })
-                        break;
-                    case 9:
-                        Crafty.e('Finish').attr({
-                            x:
-                            j * 32,
-                            y: i * 32,
-                            z: 2
-                        })
-                        break;
-                    default:
-                        Crafty.e('Steel').attr({
-                            x:
-                            j * 32,
-                            y: i * 32,
-                            z: 2
-                        })
-                    }
+            function(row) {
+                // row is array
+                if (_.isArray(row)) {
+                    //
+                    var j = 0;
                     // column
-                    j++;
+                    // loop each cell
+                    _.each(row,
+                        function(cell) {
+                            switch (cell) {
+                                case 1:
+                                Crafty.e('Dirt').attr({
+                                    x: j * 32,
+                                    y: i * 32,
+                                    z: 2
+                                });
+                                break;
+                                case 2:
+                                Crafty.e('Stone').attr({
+                                    x: j * 32,
+                                    y: i * 32,
+                                    z: 2
+                                });
+                                break;
+                                case 3:
+                                Crafty.e('Diamond').attr({
+                                    x: j * 32,
+                                    y: i * 32,
+                                    z: 2
+                                })
+                                break;
+                                case 4:
+                                Crafty.e('Brick').attr({
+                                    x: j * 32,
+                                    y: i * 32,
+                                    z: 2
+                                })
+                                break;
+                                case 5:
+                                // empty space
+                                break;
+                                case 8:
+                                Crafty.e('Door').attr({
+                                    x: j * 32,
+                                    y: i * 32,
+                                    z: 2
+                                })
+                                break;
+                                case 9:
+                                Crafty.e('Finish').attr({
+                                    x: j * 32,
+                                    y: i * 32,
+                                    z: 2
+                                })
+                                break;
+                                default:
+                                Crafty.e('Steel').attr({
+                                    x: j * 32,
+                                    y: i * 32,
+                                    z: 2
+                                })
+                            }
+                            // column
+                            j++;
+                        });
+                    }
+                    // row
+                    i++;
                 });
             }
-            // row
-            i++;
-        });
-    }
 
-});
+        });
