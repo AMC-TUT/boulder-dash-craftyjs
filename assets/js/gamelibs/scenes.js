@@ -6,31 +6,30 @@ function() {
     /*
     var assests = [
     //Images
-    bd.game_path + "/assets/img/bg.png",
-    bd.game_path + "/assets/img/ships.png",
-    bd.game_path + "/assets/img/weapon1_small.png",
-    bd.game_path + "/assets/img/weapon2.png",
-    bd.game_path + "/assets/img/dmg.png",
-    bd.game_path + "/assets/img/asteroid64.png",
-    bd.game_path + "/assets/img/asteroid32.png",
-    bd.game_path + "/assets/img/explosion.png",
-    bd.game_path + "/media/sounds/explode.mp3",
-    bd.game_path + "/media/sounds/explode.ogg",
-    bd.game_path + "/media/sounds/explode.wav",
+    game.path + "/assets/img/bg.png",
+    game.path + "/assets/img/ships.png",
+    game.path + "/assets/img/weapon1_small.png",
+    game.path + "/assets/img/weapon2.png",
+    game.path + "/assets/img/dmg.png",
+    game.path + "/assets/img/asteroid64.png",
+    game.path + "/assets/img/asteroidgame.cellsize.png",
+    game.path + "/assets/img/explosion.png",
+    game.path + "/media/sounds/explode.mp3",
+    game.path + "/media/sounds/explode.ogg",
+    game.path + "/media/sounds/explode.wav",
     ];
     */
 
     Crafty.background("#000");
 
     Crafty.e("2D", "DOM", "Text").css({
-        "color": "#EEE",
         "font-size": "2em",
         "padding": "2em",
         "white-space": "nowrap",
         "text-align": "center"
         }).text("Ladataan...");
 
-        Crafty.load([bd.game_path + "/assets/img/sprite.png"],
+        Crafty.load([game.path + "/assets/img/sprite.png"],
         function() {
             //when loaded
             Crafty.audio.play("uncover");
@@ -53,7 +52,7 @@ function() {
 Crafty.scene("Game",
 function() {
 
-    //Crafty.HashMap(32);
+    //Crafty.HashMap(game.cellsize);
 
     Crafty.background("#000");
 
@@ -75,7 +74,7 @@ function() {
     [0, 1, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 2, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0],
     [0, 5, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 3, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 0],
-    [0, 2, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 5, 1, 1, 9, 0],
+    [0, 2, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 5, 1, 1, 0, 0],
     [0, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 5, 5, 1, 1, 1, 1, 3, 1, 1, 1, 2, 1, 2, 2, 1, 1, 1, 0],
     [0, 1, 1, 1, 1, 2, 3, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 3, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0],
     [0, 1, 1, 1, 5, 1, 1, 5, 1, 2, 1, 1, 2, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 3, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 0],
@@ -104,29 +103,29 @@ function() {
                             switch (cell) {
                                 case 1:
                                 Crafty.e('Dirt').attr({
-                                    x: j * 32,
-                                    y: i * 32,
+                                    x: j * game.cellsize,
+                                    y: i * game.cellsize,
                                     z: 2
                                 });
                                 break;
                                 case 2:
                                 Crafty.e('Stone').attr({
-                                    x: j * 32,
-                                    y: i * 32,
+                                    x: j * game.cellsize,
+                                    y: i * game.cellsize,
                                     z: 2
                                 });
                                 break;
                                 case 3:
                                 Crafty.e('Diamond').attr({
-                                    x: j * 32,
-                                    y: i * 32,
+                                    x: j * game.cellsize,
+                                    y: i * game.cellsize,
                                     z: 2
                                 })
                                 break;
                                 case 4:
                                 Crafty.e('Brick').attr({
-                                    x: j * 32,
-                                    y: i * 32,
+                                    x: j * game.cellsize,
+                                    y: i * game.cellsize,
                                     z: 2
                                 })
                                 break;
@@ -135,22 +134,22 @@ function() {
                                 break;
                                 case 8:
                                 Crafty.e('Door').attr({
-                                    x: j * 32,
-                                    y: i * 32,
+                                    x: j * game.cellsize,
+                                    y: i * game.cellsize,
                                     z: 2
                                 })
                                 break;
                                 case 9:
                                 Crafty.e('Finish').attr({
-                                    x: j * 32,
-                                    y: i * 32,
+                                    x: j * game.cellsize,
+                                    y: i * game.cellsize,
                                     z: 2
                                 })
                                 break;
                                 default:
                                 Crafty.e('Steel').attr({
-                                    x: j * 32,
-                                    y: i * 32,
+                                    x: j * game.cellsize,
+                                    y: i * game.cellsize,
                                     z: 2
                                 })
                             }

@@ -1,4 +1,5 @@
 // game path
-var bd = {     
-  game_path: "/boulder-dash-craftyjs" 
+var game = {     
+  path: "/boulder-dash-craftyjs",
+  cellsize: 32,
 }

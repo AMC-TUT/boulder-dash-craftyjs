@@ -1,6 +1,6 @@
 
 // objects
-Crafty.sprite(32, bd.game_path + "/assets/img/sprite.png", {
+Crafty.sprite(32, game.path + "/assets/img/sprite.png", {
     // new dude
     Dash: [0, 0],
     birth1: [1, 0],
@@ -18,7 +18,7 @@ Crafty.sprite(32, bd.game_path + "/assets/img/sprite.png", {
     // Stone
     StoneSprite: [0, 7],
     DirtSprite: [1, 7],
-    explosion1: [2, 7],
+    ExplosionSprite: [2, 7],
     explosion2: [3, 7],
     explosion3: [4, 7],
     explosion4: [5, 7],
