@@ -1,12 +1,10 @@
 
 var previousPos = function(current, direction) {
-        var cellSize = game.cellsize;
-
         // find previous cell which is devidable with cellSize
         // current is either y || x -axis depending on direction
         
         // count difference to valid cell value with mobulo
-        var modulo = current % cellSize;
+        var modulo = current % game.cellsize;
 
         var previousPoint;
 
@@ -282,10 +280,10 @@ this
     // if score reaches the level limit value
     if (this.collected == this.limit) {        
         // remove steel from finish
-        steel = Crafty.map.search({ _x: 1216, _y: 544, _w: game.cellsize, _h: game.cellsize })[0];
+        steel = Crafty.map.search({ _x: 1216, _y: 512, _w: game.cellsize, _h: game.cellsize })[0];
         steel.destroy();
         // add finish
-        Crafty.e("Finish").attr({ x: 1216, y: 544, z: 2, });
+        Crafty.e("Finish").attr({ x: 1216, y: 512, z: 2, });
         // play sound
         Crafty.audio.play("crack");
     }
@@ -360,7 +358,7 @@ Crafty.c("Stone", {
         this.direction = 'n',
         this.addComponent("2D", "Canvas", "Collision", "StoneSprite", "Gravity", "Solid", "Platform")
         .gravity("Platform")
-        .gravityConst(1)
+        .gravityConst(.5)
         /* .bind("NewDirection", function(direction) {
             if (direction.x < 0) {
                 this.direction = 'w';
@@ -467,7 +465,7 @@ Crafty.c("Diamond", {
         .animate("DiamondAnimation", 0, 10, 7)
         .animate("DiamondAnimation", 8, -1)
         .gravity("Platform")
-        .gravityConst(1)
+        .gravityConst(.5)
         .bind('Move', function(from) {
 
             // check object below
@@ -503,13 +501,13 @@ Crafty.c("Door", {
                 this.start = 0;
 
                 // destroy Door entity
-                var el = Crafty.map.search({ _x: 96, _y: 96, _w: game.cellsize, _h: game.cellsize })[0];
+                var el = Crafty.map.search({ _x: 96, _y: 64, _w: game.cellsize, _h: game.cellsize })[0];
                 el.destroy();
 
                 // Create the player
                 var obj = Crafty.e("Player").attr({
-                    x: 3 * game.cellsize,
-                    y: 3 * game.cellsize,
+                    x: 96,
+                    y: 64,
                     z: 3
                 });
             }

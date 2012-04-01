@@ -1,24 +1,18 @@
 
+var loadingText = function() {
+    var $loadingText = $('#cr-stage > div > div');
+    var newText = $loadingText.text() + '.';
+    $loadingText.text( newText.replace(/Ladataan\.{4}/, 'Ladataan') );
+}
 
 //Loading Scene
 Crafty.scene("Loading",
 function() {
-    /*
+    
     var assests = [
-    //Images
-    game.path + "/assets/img/bg.png",
-    game.path + "/assets/img/ships.png",
-    game.path + "/assets/img/weapon1_small.png",
-    game.path + "/assets/img/weapon2.png",
-    game.path + "/assets/img/dmg.png",
-    game.path + "/assets/img/asteroid64.png",
-    game.path + "/assets/img/asteroidgame.cellsize.png",
-    game.path + "/assets/img/explosion.png",
-    game.path + "/media/sounds/explode.mp3",
-    game.path + "/media/sounds/explode.ogg",
-    game.path + "/media/sounds/explode.wav",
+    //Images & Sounds
+    game.path + "/assets/img/sprite.png",
     ];
-    */
 
     Crafty.background("#000");
 
@@ -26,11 +20,16 @@ function() {
         "font-size": "2em",
         "padding": "2em",
         "white-space": "nowrap",
-        "text-align": "center"
+        "text-align": "center",
         }).text("Ladataan...");
 
-        Crafty.load([game.path + "/assets/img/sprite.png"],
+    // effing ugly text changing
+    setInterval("loadingText()", 800);
+
+        Crafty.load(assests,
         function() {
+            // loading interval
+            clearInterval();
             //when loaded
             Crafty.audio.play("uncover");
             // go to Game scene
@@ -57,7 +56,6 @@ function() {
     Crafty.background("#000");
 
     var world = [
-    [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 1, 1, 1, 1, 1, 1, 5, 1, 1, 3, 1, 2, 5, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 2, 1, 1, 1, 1, 0],
     [0, 1, 2, 8, 2, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 1, 1, 2, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 5, 1, 1, 0],
