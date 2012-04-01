@@ -1,14 +1,13 @@
-
 var loadingText = function() {
     var $loadingText = $('#cr-stage > div > div');
     var newText = $loadingText.text() + '.';
-    $loadingText.text( newText.replace(/Ladataan\.{4}/, 'Ladataan') );
+    $loadingText.text(newText.replace(/Ladataan\.{4}/, 'Ladataan'));
 }
 
 //Loading Scene
 Crafty.scene("Loading",
 function() {
-    
+
     var assests = [
     //Images & Sounds
     game.path + "/assets/img/sprite.png",
@@ -21,28 +20,28 @@ function() {
         "padding": "2em",
         "white-space": "nowrap",
         "text-align": "center",
-        }).text("Ladataan...");
+    }).text("Ladataan...");
 
     // effing ugly text changing
     setInterval("loadingText()", 800);
 
-        Crafty.load(assests,
-        function() {
-            // loading interval
-            clearInterval();
-            //when loaded
-            Crafty.audio.play("uncover");
-            // go to Game scene
-            Crafty.scene("Game");
+    Crafty.load(assests,
+    function() {
+        // loading interval
+        clearInterval();
+
+        // go to game
+        Game.reset();
+
+    },
+    function(e) {
+        //progress
+        //log('loaded ' + e.loaded + ', percent ' + Math.round(e.percent) + ', total ' + e.total);
         },
-        function(e) {
-            //progress
-            //log('loaded ' + e.loaded + ', percent ' + Math.round(e.percent) + ', total ' + e.total);
-        },
-        function(e) {
-            //uh oh, error loading
-            alert('Error while loading assets (loaded ' + e.loaded + ', percent ' + Math.round(e.percent) + ', total ' + e.total + ')');
-        }
+    function(e) {
+        //uh oh, error loading
+        alert('Error while loading assets (loaded ' + e.loaded + ', percent ' + Math.round(e.percent) + ', total ' + e.total + ')');
+    }
     );
 
 });
@@ -50,8 +49,6 @@ function() {
 //Game Scene
 Crafty.scene("Game",
 function() {
-
-    //Crafty.HashMap(game.cellsize);
 
     Crafty.background("#000");
 
@@ -89,75 +86,74 @@ function() {
         //  row
         // loop each row
         _.each(world,
-            function(row) {
-                // row is array
-                if (_.isArray(row)) {
-                    //
-                    var j = 0;
-                    // column
-                    // loop each cell
-                    _.each(row,
-                        function(cell) {
-                            switch (cell) {
-                                case 1:
-                                Crafty.e('Dirt').attr({
-                                    x: j * game.cellsize,
-                                    y: i * game.cellsize,
-                                    z: 2
-                                });
-                                break;
-                                case 2:
-                                Crafty.e('Stone').attr({
-                                    x: j * game.cellsize,
-                                    y: i * game.cellsize,
-                                    z: 2
-                                });
-                                break;
-                                case 3:
-                                Crafty.e('Diamond').attr({
-                                    x: j * game.cellsize,
-                                    y: i * game.cellsize,
-                                    z: 2
-                                })
-                                break;
-                                case 4:
-                                Crafty.e('Brick').attr({
-                                    x: j * game.cellsize,
-                                    y: i * game.cellsize,
-                                    z: 2
-                                })
-                                break;
-                                case 5:
-                                // empty space
-                                break;
-                                case 8:
-                                Crafty.e('Door').attr({
-                                    x: j * game.cellsize,
-                                    y: i * game.cellsize,
-                                    z: 2
-                                })
-                                break;
-                                case 9:
-                                Crafty.e('Finish').attr({
-                                    x: j * game.cellsize,
-                                    y: i * game.cellsize,
-                                    z: 2
-                                })
-                                break;
-                                default:
-                                Crafty.e('Steel').attr({
-                                    x: j * game.cellsize,
-                                    y: i * game.cellsize,
-                                    z: 2
-                                })
-                            }
-                            // column
-                            j++;
+        function(row) {
+            // row is array
+            if (_.isArray(row)) {
+                //
+                var j = 0;
+                // column
+                // loop each cell
+                _.each(row,
+                function(cell) {
+                    switch (cell) {
+                    case 1:
+                        Crafty.e('Dirt').attr({
+                            x:
+                            j * game.cellsize,
+                            y: i * game.cellsize,
+                            z: 2
                         });
+                        break;
+                    case 2:
+                        Crafty.e('Stone').attr({
+                            x:
+                            j * game.cellsize,
+                            y: i * game.cellsize,
+                            z: 2
+                        });
+                        break;
+                    case 3:
+                        Crafty.e('Diamond').attr({
+                            x:
+                            j * game.cellsize,
+                            y: i * game.cellsize,
+                            z: 2
+                        })
+                        break;
+                    case 4:
+                        Crafty.e('Brick').attr({
+                            x:
+                            j * game.cellsize,
+                            y: i * game.cellsize,
+                            z: 2
+                        })
+                        break;
+                    case 5:
+                        // empty space
+                        break;
+                    case 8:
+                        Crafty.e('Door').attr({
+                            x:
+                            j * game.cellsize,
+                            y: i * game.cellsize,
+                            z: 2
+                        })
+                        break;
+                    default:
+                        Crafty.e('Steel').attr({
+                            x:
+                            j * game.cellsize,
+                            y: i * game.cellsize,
+                            z: 2
+                        })
                     }
-                    // row
-                    i++;
+                    // column
+                    j++;
                 });
             }
-
+            // row
+            i++;
         });
+    }
+
+});

@@ -1,4 +1,3 @@
-
 Crafty.audio.add({
     amoeba: [
     game.path + "/assets/audio/ogg/Amoeba.ogg",
@@ -29,7 +28,7 @@ Crafty.audio.add({
 });
 Crafty.audio.add({
     DiamondSound: [
-    game.path + "/assets/audio/ogg/Diamond1.ogg",    
+    game.path + "/assets/audio/ogg/Diamond1.ogg",
     game.path + "/assets/audio/mp3/Diamond1.mp3",
     game.path + "/assets/audio/wav/Diamond1.wav"
     ]
