@@ -1,7 +1,7 @@
 var loadingText = function() {
     var $loadingText = $('#cr-stage > div > div');
     var newText = $loadingText.text() + '.';
-    $loadingText.text(newText.replace(/Ladataan\.{4}/, 'Ladataan'));
+    $loadingText.text(newText.replace(/Loading\.{4}/, 'Ladataan'));
 }
 
 //Loading Scene
@@ -15,20 +15,25 @@ function() {
 
     Crafty.background("#000");
 
+    Crafty.e("2D, DOM, Image")
+    .attr({ x: 150, y: 40, w: 336, h: 240 })
+    .image(game.path + "/assets/img/logo.png");
+
     Crafty.e("2D", "DOM", "Text").css({
-        "font-size": "2em",
-        "padding": "2em",
+        "font-size": "22px",
         "white-space": "nowrap",
         "text-align": "center",
-    }).text("Ladataan...");
+    })
+    .attr({ x: 230, y: 310 })
+    .text("Loading...");
 
     // effing ugly text changing
-    setInterval("loadingText()", 800);
+    var interval =setInterval("loadingText()", 800);
 
     Crafty.load(assests,
     function() {
         // loading interval
-        clearInterval();
+        clearInterval(interval);
 
         // go to game
         Game.reset();
@@ -43,6 +48,32 @@ function() {
         alert('Error while loading assets (loaded ' + e.loaded + ', percent ' + Math.round(e.percent) + ', total ' + e.total + ')');
     }
     );
+
+});
+
+//Game Over Scene
+Crafty.scene("GameOver",
+function() {
+
+    Crafty.background("#000");
+
+    Crafty.e("2D", "DOM", "Text").css({
+        "font-size": "22px",
+        "white-space": "nowrap",
+        "text-align": "center",
+        "color": "#A36E30"
+    })
+    .attr({ x: 150, y: 30 })
+    .text("Game Over");
+
+    Crafty.e("2D", "DOM", "Text", "game-start").css({
+        "font-size": "22px",
+        "white-space": "nowrap",
+        "text-align": "center",
+        "cursor": "pointer"
+    })
+    .attr({ x: 150, y: 80 })
+    .text("Start New Game");
 
 });
 

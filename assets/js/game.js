@@ -1,6 +1,3 @@
-/* Author: AMC
-
-*/
 
 window.onload = function() {
 
@@ -18,10 +15,9 @@ window.onload = function() {
 
 };
 
-
 !function( $ ){
 
-    $(".game-start").bind('click', function(event) {
+    $(".game-start").live('click', function(event) {
         //
         Game.reset();
     });
