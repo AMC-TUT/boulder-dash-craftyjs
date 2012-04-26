@@ -1,7 +1,7 @@
 var loadingText = function() {
     var $loadingText = $('#cr-stage > div > div');
     var newText = $loadingText.text() + '.';
-    $loadingText.text(newText.replace(/Loading\.{4}/, 'Ladataan'));
+    $loadingText.text(newText.replace(/Loading\.{4}/, 'Loading'));
 }
 
 //Loading Scene
@@ -15,16 +15,12 @@ function() {
 
     Crafty.background("#000");
 
-    Crafty.e("2D, DOM, Image")
-    .attr({ x: 150, y: 40, w: 336, h: 240 })
-    .image(game.path + "/assets/img/logo.png");
-
     Crafty.e("2D", "DOM", "Text").css({
-        "font-size": "22px",
+        "font-size": "170%",
         "white-space": "nowrap",
         "text-align": "center",
     })
-    .attr({ x: 230, y: 310 })
+    .attr({ x: 100, y: 100 })
     .text("Loading...");
 
     // effing ugly text changing
@@ -57,22 +53,70 @@ function() {
 
     Crafty.background("#000");
 
+    Crafty.e("2D, DOM, Image")
+    .attr({ x: 50, y: 40, w: 336, h: 240 })
+    .image(game.path + "/assets/img/logo.png");
+
     Crafty.e("2D", "DOM", "Text").css({
-        "font-size": "22px",
+        "font-size": "170%",
         "white-space": "nowrap",
         "text-align": "center",
-        "color": "#A36E30"
+        "color": "#A36E30",
+        "line-height": "2em"
     })
-    .attr({ x: 150, y: 30 })
+    .attr({ x: 440, y: 110 })
     .text("Game Over");
 
     Crafty.e("2D", "DOM", "Text", "game-start").css({
-        "font-size": "22px",
+        "font-size": "170%",
         "white-space": "nowrap",
         "text-align": "center",
-        "cursor": "pointer"
+        "cursor": "pointer",
+        "line-height": "2em"
     })
-    .attr({ x: 150, y: 80 })
+    .attr({ x: 440, y: 150 })
+    .text("Start New Game");
+
+});
+
+//Game Over Scene
+Crafty.scene("GameFinish",
+function() {
+
+    Crafty.background("#000");
+
+    Crafty.e("2D, DOM, Image")
+    .attr({ x: 50, y: 40, w: 336, h: 240 })
+    .image(game.path + "/assets/img/logo.png");
+
+    Crafty.e("2D", "DOM", "Text").css({
+        "font-size": "170%",
+        "white-space": "nowrap",
+        "text-align": "center",
+        "color": "#A36E30",
+        "line-height": "2em"
+    })
+    .attr({ x: 440, y: 90 })
+    .text("Game Finish");
+
+    Crafty.e("2D", "DOM", "Text").css({
+        "font-size": "170%",
+        "white-space": "nowrap",
+        "text-align": "center",
+        "color": "green",
+        "line-height": "2em"
+    })
+    .attr({ x: 440, y: 130 })
+    .text("Your Score: " + Game.score );
+
+    Crafty.e("2D", "DOM", "Text", "game-start").css({
+        "font-size": "170%",
+        "white-space": "nowrap",
+        "text-align": "center",
+        "cursor": "pointer",
+        "line-height": "2em"
+    })
+    .attr({ x: 440, y: 170 })
     .text("Start New Game");
 
 });
@@ -186,5 +230,7 @@ function() {
             i++;
         });
     }
+
+    $(window).trigger('resize');
 
 });

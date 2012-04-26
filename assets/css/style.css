@@ -1,53 +1,21 @@
-
-canvas {
-  -webkit-transform: translateZ(0);
-  -moz-transform:  translate(tx[0, 0);
-  transform:  translate(0, 0);
-  width: 940px;
-}
+*{margin:0;padding:0;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
+body{background-color:#000;font-family:'Commodore64PixelizedRegular';color:#4036CD;font-weight:normal;text-transform:uppercase;text-shadow:1px 1px 0px #FFF,-1px -1px 0px #FFF,1px -1px 0px #FFF,-1px 1px 0px #FFF;overflow:hidden;font-size:.86em;}
+canvas{-webkit-transform:translateZ(0);-moz-transform:translate(0,0);transform:translate(0,0);}
+header{text-align:center;line-height:54px;}
+nav{font-size:130%;color:#A36E30;}
+nav div{display:inline;}
+nav div span{display:inline-block;}
+.game-start{cursor:pointer;}
+.game-start,.game-time{color:#4036CD;}
+.game-diamond-objective,.game-collected{color:goldenrod;}
+.game-diamond-info,.game-time,.game-score,.game-collected{margin-left:1em;}
 
 @font-face {
+    font-weight: normal;font-style: normal;
     font-family: 'Commodore64PixelizedRegular';
     src: url('../fonts/commodore_pixelized_v1.2-webfont.eot');
     src: url('../fonts/commodore_pixelized_v1.2-webfont.eot?#iefix') format('embedded-opentype'),
          url('../fonts/commodore_pixelized_v1.2-webfont.woff') format('woff'),
          url('../fonts/commodore_pixelized_v1.2-webfont.ttf') format('truetype'),
          url('../fonts/commodore_pixelized_v1.2-webfont.svg#') format('svg');
-    font-weight: normal;
-    font-style: normal;
 }
-
-body {
-    background-color: #000;
-    font-family: 'Commodore64PixelizedRegular';
-    color: #4036CD;
-    font-weight: normal;
-    text-transform: uppercase;
-    text-shadow: 1px 1px 0px #FFF, -1px -1px 0px #FFF, 1px -1px 0px #FFF, -1px 1px 0px #FFF;
-    overflow: hidden;
-    font-size: 13px;
-}
-
-nav {
-  padding: 1em;
-  font-size: 18px;
-  color: #A36E30;
-}
-
-nav div { 
-  display: inline-block; }
-nav div span { display: inline-block; }
-.game-start {
-  cursor: pointer; }
-.game-start, .game-time { 
-  color: #4036CD; }
-.game-diamond-info, .game-score {
-  width: 100px; }
-.game-collected {
-  width: 15px; }
-.game-time {
-  width: 200px; }
-.game-diamond-objective, .game-collected {
-  color: goldenrod; }
-.game-diamond-info, .game-time, .game-score, .game-collected {
-  margin-left: 1em; }

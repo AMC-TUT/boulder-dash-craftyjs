@@ -1,5 +1,6 @@
 var Game = {
     timer: null,
+    score: 0,
     reset: function() {
         this.direction = '',
         this.time = 150,
@@ -29,21 +30,6 @@ var Game = {
         return setInterval(function() {
             time -= 1;
             if (time == 0) {
-                /*
-                _.each(Crafty.map, function(obj){ 
-                    if(!_.isUndefined(obj) && obj.__c.Player) {
-                        var player = Crafty.map.search({
-                            _x: obj._x,
-                            _y: obj._y,
-                            _w: game.cellsize,
-                            _h: game.cellsize
-                        })[0];
-                        
-                        player.trigger('Killed');
-                    }
-                    
-                });
-                */
                 Crafty.e("Player").attr({ x: -92, y: -92 }).trigger('Killed');
             }
 
@@ -119,7 +105,7 @@ Crafty.c("Player", {
         },
         this.moving = 0;
 
-        this.addComponent("2D", "Canvas", "Dash", "Keyboard", "Fourway", "Collision", "SpriteAnimation", "Platform")
+        this.addComponent("2D", "Canvas", "Dash", "Keyboard", "Collision", "SpriteAnimation", "Platform")
         /*Add needed Components*/
         .animate("StandingAnimation", [
         [0, 1], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1],
@@ -129,7 +115,6 @@ Crafty.c("Player", {
         .animate('RightWalking', 0, 5, 7)
         .animate('LeftWalking', 0, 4, 7)
         .animate("StandingAnimation", 10, -1)
-        //.fourway(game.cellsize)
         .bind("EnterFrame", function(frame) {
 
             if(frame.frame % 6 === 0) {
@@ -194,23 +179,10 @@ Crafty.c("Player", {
         function(e) {     
             this.stop().animate("StandingAnimation", 10, -1);
         })
-        .bind('KeyDown',
-        function(e) {     
-            /*
-            if(this.isDown("UP_ARROW")) {
-                this.y = this._y - 32;
-                this.trigger("Moved", { x: this._x, y: this._y + 32 });
-            }
-            if(this.isDown("DOWN_ARROW")) {
-                this.y = this._y + 32;
-                this.trigger("Moved", { x: this._x, y: this._y - 32 });
-            }
-            */
-        })
         .bind('Moved',
         function(from) {
             // Stone, Steel & Brick
-            if (this.hit('Stone') || this.hit('Steel') || this.hit('Brick') ) { // || Crafty.frame() % 6 != 0) {
+            if (this.hit('Stone') || this.hit('Steel') || this.hit('Brick') ) {
                 this.attr({
                     x: from.x,
                     y: from.y
@@ -339,6 +311,7 @@ Crafty.c("Player", {
             }
 
             this.score += this.diamond.value;
+
             $('.game-score').text(Game.zeroPad(this.score, 7));
 
         })
@@ -356,8 +329,14 @@ Crafty.c("Player", {
             $('.game-score').text(Game.zeroPad(this.score, 7));
             $('.game-time > span').text('000');
 
+            //
+            Game.score = this.score;
+
             // remove player
             this.destroy();
+
+            // show the game
+            Crafty.scene('GameFinish');
 
         })
         .bind("Killed",
