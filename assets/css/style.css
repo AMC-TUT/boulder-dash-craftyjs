@@ -3,7 +3,7 @@ body{background-color:#000;font-family:'Commodore64PixelizedRegular';color:#4036
 canvas{-webkit-transform:translateZ(0);-moz-transform:translate(0,0);transform:translate(0,0);}
 header{text-align:center;line-height:54px;}
 nav{font-size:130%;color:#A36E30;}
-nav div{display:inline;}
+nav div{display:inline-block;}
 nav div span{display:inline-block;}
 .game-start{cursor:pointer;}
 .game-start,.game-time{color:#4036CD;}

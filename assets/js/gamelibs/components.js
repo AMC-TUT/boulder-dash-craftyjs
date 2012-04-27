@@ -1,10 +1,12 @@
 var Game = {
     timer: null,
     score: 0,
+    bg: null,
     reset: function() {
         this.direction = '',
         this.time = 150,
         this.score = 0,
+        this.timer = null,
         this.diamond = {
             value: 10,
             objective: 12,
@@ -16,12 +18,11 @@ var Game = {
         $('.game-diamond-value').text(this.diamond.value);
         $('.game-diamond-objective').text(this.diamond.objective);
 
-        //Crafty.audio.stop('music');
-        
         //when loaded
         Crafty.audio.play("uncover");
         // show the game
         Crafty.scene('Game');
+
     },
     timerStart: function() {
         var $time = $('.game-time > span');
@@ -217,8 +218,7 @@ Crafty.c("Player", {
         })
         .bind('Move',
         function(from) {
-           // if(Crafty.frame() % 6 != 0) {
-                
+               
                 if (this.hit('Stone')) {
 
                     // if player move horizontaly and hit the stone
@@ -265,7 +265,6 @@ Crafty.c("Player", {
                         }
                     }
                 }
-           // } // modulo
         })
         .onHit('Dirt',
         function(ent) {
@@ -317,26 +316,48 @@ Crafty.c("Player", {
         })
         .onHit('Finish',
         function(ent) {
+            
+            //
+            ent[0].obj.destroy();
+
+            //
+            Game.timerStop(this.timer);
+
             // play sound
             Crafty.audio.play("bonuspoints");
 
-            ent[0].obj.destroy();
-
-            Game.timerStop(this.timer);
-
-            // TODO countdown
-            this.score += parseInt($('.game-time > span').text());
-            $('.game-score').text(Game.zeroPad(this.score, 7));
-            $('.game-time > span').text('000');
-
             //
-            Game.score = this.score;
+            var timeLeft = parseInt($('.game-time > span').text());
+            
+            //
+            var score = this.score;
 
             // remove player
             this.destroy();
 
-            // show the game
-            Crafty.scene('GameFinish');
+            //
+            var interval = setInterval( function() { 
+
+                if(timeLeft >= 0) {
+
+                    score += 1;
+
+                    $('.game-score').text(Game.zeroPad(score, 7));
+
+                    $('.game-time > span').text(Game.zeroPad(timeLeft, 3));
+
+                    timeLeft -= 1;
+                } else {
+                    //
+                    clearInterval(interval);
+                    //
+                    Game.score = score;
+                    // show the game
+                    Crafty.scene('GameFinish');
+
+                }
+
+            }, 5);   
 
         })
         .bind("Killed",
@@ -389,7 +410,7 @@ Crafty.c("Player", {
             // play background music a tiny bit after explosion
             setTimeout(function() {
                 // background music for result view
-                Crafty.audio.play("music", .1);
+               // Game.bg = Crafty.audio.play("music", -1);
                 // 
                 Crafty.scene("GameOver");
             },
