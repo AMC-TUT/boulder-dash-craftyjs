@@ -24,7 +24,7 @@ function() {
     .text("Loading...");
 
     // effing ugly text changing
-    var interval =setInterval("loadingText()", 800);
+    var interval = setInterval("loadingText()", 800);
 
     Crafty.load(assests,
     function() {

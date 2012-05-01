@@ -31,14 +31,17 @@ var Game = {
         return setInterval(function() {
             time -= 1;
             if (time == 0) {
-                Crafty.e("Player").attr({ x: -92, y: -92 }).trigger('Killed');
+                Crafty.e("Player").attr({
+                    x: -92,
+                    y: -92
+                }).trigger('Killed');
             }
 
             if (time == 11) {
                 Crafty.audio.play("runningoutoftime");
             }
 
-            if(time < 0) {
+            if (time < 0) {
                 time = 0;
             }
 
@@ -116,29 +119,54 @@ Crafty.c("Player", {
         .animate('RightWalking', 0, 5, 7)
         .animate('LeftWalking', 0, 4, 7)
         .animate("StandingAnimation", 10, -1)
-        .bind("EnterFrame", function(frame) {
+        .bind("EnterFrame",
+        function(frame) {
 
-            if(frame.frame % 6 === 0) {
+            if (frame.frame % 6 === 0) {
 
-                if(this.isDown("UP_ARROW")) {
+                if (this.isDown("UP_ARROW")) {
                     this.y = this._y - 32;
-                    this.trigger("Moved", { x: this._x, y: this._y + 32 });
-                    this.trigger("NewDirection", { x: 0, y: -32 });
+                    this.trigger("Moved", {
+                        x: this._x,
+                        y: this._y + 32
+                    });
+                    this.trigger("NewDirection", {
+                        x: 0,
+                        y: -32
+                    });
                 }
-                else if(this.isDown("DOWN_ARROW")) {
+                else if (this.isDown("DOWN_ARROW")) {
                     this.y = this._y + 32;
-                    this.trigger("Moved", { x: this._x, y: this._y - 32 });
-                    this.trigger("NewDirection", { x: 0, y: +32 });
+                    this.trigger("Moved", {
+                        x: this._x,
+                        y: this._y - 32
+                    });
+                    this.trigger("NewDirection", {
+                        x: 0,
+                        y: +32
+                    });
                 }
-                else if(this.isDown("LEFT_ARROW")) {
+                else if (this.isDown("LEFT_ARROW")) {
                     this.x = this._x - 32;
-                    this.trigger("Moved", { x: this._x + 32, y: this._y });
-                    this.trigger("NewDirection", { x: -32, y: 0 });
+                    this.trigger("Moved", {
+                        x: this._x + 32,
+                        y: this._y
+                    });
+                    this.trigger("NewDirection", {
+                        x: -32,
+                        y: 0
+                    });
                 }
-                else if(this.isDown("RIGHT_ARROW")) {
+                else if (this.isDown("RIGHT_ARROW")) {
                     this.x = this._x + 32;
-                    this.trigger("Moved", { x: this._x -32, y: this._y });
-                    this.trigger("NewDirection", { x: +32, y: 0 });
+                    this.trigger("Moved", {
+                        x: this._x - 32,
+                        y: this._y
+                    });
+                    this.trigger("NewDirection", {
+                        x: +32,
+                        y: 0
+                    });
                 }
 
             }
@@ -177,13 +205,13 @@ Crafty.c("Player", {
             }
         })
         .bind('KeyUp',
-        function(e) {     
+        function(e) {
             this.stop().animate("StandingAnimation", 10, -1);
         })
         .bind('Moved',
         function(from) {
             // Stone, Steel & Brick
-            if (this.hit('Stone') || this.hit('Steel') || this.hit('Brick') ) {
+            if (this.hit('Stone') || this.hit('Steel') || this.hit('Brick')) {
                 this.attr({
                     x: from.x,
                     y: from.y
@@ -218,53 +246,53 @@ Crafty.c("Player", {
         })
         .bind('Move',
         function(from) {
-               
-                if (this.hit('Stone')) {
 
-                    // if player move horizontaly and hit the stone
-                    // check if there is empty space after the
-                    // stone, then push the stone to the empty space
-                    if (this._y == from._y) {
+            if (this.hit('Stone')) {
 
-                        var stone = Crafty.map.search({
-                            _x: this._x,
+                // if player move horizontaly and hit the stone
+                // check if there is empty space after the
+                // stone, then push the stone to the empty space
+                if (this._y == from._y) {
+
+                    var stone = Crafty.map.search({
+                        _x: this._x,
+                        _y: this._y,
+                        _w: game.cellsize,
+                        _h: game.cellsize
+                    })[0];
+
+                    var ent;
+
+                    if (this.direction == 'e') {
+                        var validPos = Game.previousPos(this._x, this.direction);
+                        ent = Crafty.map.search({
+                            _x: validPos + game.cellsize,
                             _y: this._y,
                             _w: game.cellsize,
                             _h: game.cellsize
                         })[0];
 
-                        var ent;
+                        // if there is not block behind behind the stone
+                        if (typeof ent === "undefined") {
+                            stone.x = stone._x + game.cellsize;
+                        }
 
-                        if (this.direction == 'e') {
-                            var validPos = Game.previousPos(this._x, this.direction);
-                            ent = Crafty.map.search({
-                                _x: validPos + game.cellsize,
-                                _y: this._y,
-                                _w: game.cellsize,
-                                _h: game.cellsize
-                            })[0];
+                    } else if (this.direction == 'w') {
+                        var validPos = Game.previousPos(this._x, this.direction);
+                        ent = Crafty.map.search({
+                            _x: validPos - game.cellsize,
+                            _y: this._y,
+                            _w: game.cellsize,
+                            _h: game.cellsize
+                        })[0];
 
-                            // if there is not block behind behind the stone
-                            if (typeof ent === "undefined") {
-                                stone.x = stone._x + game.cellsize;
-                            }
-
-                        } else if (this.direction == 'w') {
-                            var validPos = Game.previousPos(this._x, this.direction);
-                            ent = Crafty.map.search({
-                                _x: validPos - game.cellsize,
-                                _y: this._y,
-                                _w: game.cellsize,
-                                _h: game.cellsize
-                            })[0];
-
-                            // if there is not block behind behind the stone
-                            if (typeof ent === "undefined") {
-                                stone.x = stone._x - game.cellsize;
-                            }
+                        // if there is not block behind behind the stone
+                        if (typeof ent === "undefined") {
+                            stone.x = stone._x - game.cellsize;
                         }
                     }
                 }
+            }
         })
         .onHit('Dirt',
         function(ent) {
@@ -316,7 +344,7 @@ Crafty.c("Player", {
         })
         .onHit('Finish',
         function(ent) {
-            
+
             //
             ent[0].obj.destroy();
 
@@ -328,7 +356,7 @@ Crafty.c("Player", {
 
             //
             var timeLeft = parseInt($('.game-time > span').text());
-            
+
             //
             var score = this.score;
 
@@ -336,9 +364,9 @@ Crafty.c("Player", {
             this.destroy();
 
             //
-            var interval = setInterval( function() { 
+            var interval = setInterval(function() {
 
-                if(timeLeft >= 0) {
+                if (timeLeft >= 0) {
 
                     score += 1;
 
@@ -354,16 +382,14 @@ Crafty.c("Player", {
                     Game.score = score;
                     // show the game
                     Crafty.scene('GameFinish');
-
                 }
 
-            }, 5);   
+            },
+            5);
 
         })
         .bind("Killed",
         function(ent) {
-
-            //this.disableControl();
 
             var player = this;
 
@@ -410,8 +436,8 @@ Crafty.c("Player", {
             // play background music a tiny bit after explosion
             setTimeout(function() {
                 // background music for result view
-               // Game.bg = Crafty.audio.play("music", -1);
-                // 
+                // Game.bg = Crafty.audio.play("music", -1);
+                //
                 Crafty.scene("GameOver");
             },
             1100);
@@ -441,124 +467,124 @@ Crafty.c("Stone", {
         .bind('Move',
         function(from) {
 
-                if (typeof from === "undefined" || typeof this._x === "undefined") {
-                    this.direction = 's';
+            if (typeof from === "undefined" || typeof this._x === "undefined") {
+                this.direction = 's';
+            } else {
+
+                // define move direction
+                if (this._x > from._x) {
+                    this.direction = 'e';
+                } else if (this._x < from._x) {
+                    this.direction = 'w';
                 } else {
-
-                    // define move direction
-                    if (this._x > from._x) {
-                        this.direction = 'e';
-                    } else if (this._x < from._x) {
-                        this.direction = 'w';
-                    } else {
-                        this.direction = 's';
-                    }
+                    this.direction = 's';
                 }
+            }
 
-                // check object below
-                var obj = Crafty.map.search({
-                    _x: this._x,
-                    _y: this._y + game.cellsize,
-                    _w: game.cellsize,
-                    _h: game.cellsize
-                })[0];
+            // check object below
+            var obj = Crafty.map.search({
+                _x: this._x,
+                _y: this._y + game.cellsize,
+                _w: game.cellsize,
+                _h: game.cellsize
+            })[0];
 
-                // if player kill it with event triggering
-                if (typeof obj !== "undefined" && obj.__c.Player) {
-                    // trigger event
-                    obj.trigger("Killed");
-                    // move player away to make sure that the
-                    // event is not triggering multiple times
-                    obj.attr({
-                        x: -game.cellsize,
-                        y: -game.cellsize
-                    });
-                    // destroy the stone
-                    this.destroy();
+            // if player kill it with event triggering
+            if (typeof obj !== "undefined" && obj.__c.Player) {
+                // trigger event
+                obj.trigger("Killed");
+                // move player away to make sure that the
+                // event is not triggering multiple times
+                obj.attr({
+                    x: -game.cellsize,
+                    y: -game.cellsize
+                });
+                // destroy the stone
+                this.destroy();
 
-                } else if (typeof obj !== "undefined" && obj.__c.Stone) {
+            } else if (typeof obj !== "undefined" && obj.__c.Stone) {
 
-                    // check if there is empty space next to stone
-                    if (this.direction == 'w' && (this._x % game.cellsize) == 0) {
-                        var w = Crafty.map.search({
-                            _x: this._x - game.cellsize,
-                            _y: this._y,
-                            _w: game.cellsize,
-                            _h: game.cellsize
-                        })[0];
-                        var sw = Crafty.map.search({
-                            _x: this._x - game.cellsize,
-                            _y: this._y + game.cellsize,
-                            _w: game.cellsize,
-                            _h: game.cellsize
-                        })[0];
+                // check if there is empty space next to stone
+                if (this.direction == 'w' && (this._x % game.cellsize) == 0) {
+                    var w = Crafty.map.search({
+                        _x: this._x - game.cellsize,
+                        _y: this._y,
+                        _w: game.cellsize,
+                        _h: game.cellsize
+                    })[0];
+                    var sw = Crafty.map.search({
+                        _x: this._x - game.cellsize,
+                        _y: this._y + game.cellsize,
+                        _w: game.cellsize,
+                        _h: game.cellsize
+                    })[0];
 
-                        if (typeof w === "undefined" && typeof sw === "undefined") {
-                            this.x = this._x - game.cellsize;
-                        }
+                    if (typeof w === "undefined" && typeof sw === "undefined") {
+                        this.x = this._x - game.cellsize;
+                    }
 
-                    } else if (this.direction == 'e' && (this._x % game.cellsize) == 0) {
-                        //log('e' + (this._x % game.cellsize))
-                        var e = Crafty.map.search({
-                            _x: this._x + game.cellsize,
-                            _y: this._y,
-                            _w: game.cellsize,
-                            _h: game.cellsize
-                        })[0];
-                        var se = Crafty.map.search({
-                            _x: this._x + game.cellsize,
-                            _y: this._y + game.cellsize,
-                            _w: game.cellsize,
-                            _h: game.cellsize
-                        })[0];
+                } else if (this.direction == 'e' && (this._x % game.cellsize) == 0) {
+                    //log('e' + (this._x % game.cellsize))
+                    var e = Crafty.map.search({
+                        _x: this._x + game.cellsize,
+                        _y: this._y,
+                        _w: game.cellsize,
+                        _h: game.cellsize
+                    })[0];
+                    var se = Crafty.map.search({
+                        _x: this._x + game.cellsize,
+                        _y: this._y + game.cellsize,
+                        _w: game.cellsize,
+                        _h: game.cellsize
+                    })[0];
 
-                        if (typeof e === "undefined" && typeof se === "undefined") {
-                            this.x = this._x + game.cellsize;
-                        }
+                    if (typeof e === "undefined" && typeof se === "undefined") {
+                        this.x = this._x + game.cellsize;
+                    }
 
-                    } else if (this.direction == 's' && (this._y % game.cellsize) == 0) {
+                } else if (this.direction == 's' && (this._y % game.cellsize) == 0) {
 
-                        var e = Crafty.map.search({
-                            _x: this._x + game.cellsize,
-                            _y: this._y,
-                            _w: game.cellsize,
-                            _h: game.cellsize
-                        })[0];
-                        var se = Crafty.map.search({
-                            _x: this._x + game.cellsize,
-                            _y: this._y + game.cellsize,
-                            _w: game.cellsize,
-                            _h: game.cellsize
-                        })[0];
+                    var e = Crafty.map.search({
+                        _x: this._x + game.cellsize,
+                        _y: this._y,
+                        _w: game.cellsize,
+                        _h: game.cellsize
+                    })[0];
+                    var se = Crafty.map.search({
+                        _x: this._x + game.cellsize,
+                        _y: this._y + game.cellsize,
+                        _w: game.cellsize,
+                        _h: game.cellsize
+                    })[0];
 
-                        var w = Crafty.map.search({
-                            _x: this._x - game.cellsize,
-                            _y: this._y,
-                            _w: game.cellsize,
-                            _h: game.cellsize
-                        })[0];
-                        var sw = Crafty.map.search({
-                            _x: this._x - game.cellsize,
-                            _y: this._y + game.cellsize,
-                            _w: game.cellsize,
-                            _h: game.cellsize
-                        })[0];
+                    var w = Crafty.map.search({
+                        _x: this._x - game.cellsize,
+                        _y: this._y,
+                        _w: game.cellsize,
+                        _h: game.cellsize
+                    })[0];
+                    var sw = Crafty.map.search({
+                        _x: this._x - game.cellsize,
+                        _y: this._y + game.cellsize,
+                        _w: game.cellsize,
+                        _h: game.cellsize
+                    })[0];
 
-                        if (typeof e === "undefined" && typeof se === "undefined") {
-                            this.x = this._x + game.cellsize;
-                        } else if (typeof w === "undefined" && typeof sw === "undefined") {
-                            this.x = this._x - game.cellsize;
-                        }
-
+                    if (typeof e === "undefined" && typeof se === "undefined") {
+                        this.x = this._x + game.cellsize;
+                    } else if (typeof w === "undefined" && typeof sw === "undefined") {
+                        this.x = this._x - game.cellsize;
                     }
 
                 }
 
-                if (typeof from !== "undefined") {
-                    Crafty.audio.play("BoulderSound");
-                }
+            }
 
-                this.direction = '';
+            if (typeof from !== "undefined") {
+                Crafty.audio.play("BoulderSound");
+            }
+
+            this.direction = '';
 
         })
 

@@ -13,7 +13,6 @@
     Crafty.scene("Loading");
     
     //
-    //
     $(window).on('resize orientationchange', function(event) {
 
         var widthToHeight = WIDTH / HEIGHT;
